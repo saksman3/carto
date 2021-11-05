@@ -8,6 +8,7 @@ COPY yarn.lock ./
 RUN npm install
 
 RUN export NODE_OPTIONS=--openssl-legacy-provider 
+RUN export NODE_OPTIONS="--max-old-space-size=5192"
 
 COPY . /app
 
