@@ -1,16 +1,18 @@
 # 1st stage
-FROM node:12.2.0-alpine  as build
+FROM node:lts-alpine  as build
 #FROM tiangolo/node-frontend:10 as build
 WORKDIR /app
 COPY package*.json ./
-COPY yarn.lock ./
 
 RUN npm install
+
+COPY . .
+
 
 RUN export NODE_OPTIONS=--openssl-legacy-provider 
 RUN export NODE_OPTIONS="--max-old-space-size=5192"
 
-COPY . /app
+#COPY . /app
 
 #RUN npm run build
 
@@ -24,4 +26,13 @@ COPY . /app
 #EXPOSE 80
 
 #CMD ["nginx", "-g", "daemon off;"]
-CMD ["npm","start"]
+
+#CMD ["npm","start"]
+
+#Production stage
+
+FROM nginx:stable-alpine as prod
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+
+CMD ["nginx","-g","daemon off;"]
