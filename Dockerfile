@@ -1,5 +1,5 @@
 # 1st stage
-FROM node as build
+FROM node:12.2.0-alpine as build
 #FROM tiangolo/node-frontend:10 as build
 WORKDIR /app
 COPY package*.json ./
