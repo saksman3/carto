@@ -1,5 +1,5 @@
 # 1st stage
-FROM node:lts-alpine  as build
+FROM node as build
 #FROM tiangolo/node-frontend:10 as build
 WORKDIR /app
 COPY package*.json ./
@@ -14,7 +14,7 @@ RUN export NODE_OPTIONS=--openssl-legacy-provider
 RUN export NODE_OPTIONS="--max-old-space-size=5192"
 
 
-FROM nginx:stable-alpine as prod
+FROM nginx as prod
 COPY --from=build /app/build /usr/share/nginx/html
 EXPOSE 80
 
